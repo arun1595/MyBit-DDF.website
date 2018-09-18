@@ -10,10 +10,16 @@ import StyledPagination from './StyledPagination';
 import Pagination from '../Pagination';
 
 const sortBy = (items, type) => {
-  switch(type){
-    case "Most recent": items.sort((a, b) => a.createdAt < b.createdAt); return;
-    case "Highest value": items.sort((a, b) => a.value < b.value); return;
-    case "Lowest value": items.sort((a, b) => a.value > b.value); return;
+  switch(type) {
+    case "Most recent":
+      items.sort((a, b) => a.createdAt < b.createdAt);
+      break;
+    case "Highest value":
+      items.sort((a, b) => b.value - a.value);
+      break;
+    case "Lowest value":
+      items.sort((a, b) => a.value - b.value);
+      break;
   }
 }
 
@@ -22,8 +28,8 @@ const Bounties = ({styling, issues, categories, selectedCategory, setCategory, h
   let issuesFiltered = undefined;
   let totalIssuesFiltered = 0;
 
-  //apply filters
-  //filter by category and filters
+  // apply filters
+  // filter by category and filters
   if(issues && issues[selectedCategory]){
     issuesFiltered = issues[selectedCategory].issues.slice();
     issuesFiltered = issuesFiltered.filter(issue => {
@@ -35,7 +41,7 @@ const Bounties = ({styling, issues, categories, selectedCategory, setCategory, h
       return flag;
     });
 
-    //filter by only completed tags
+    // filter by only completed tags
     if(!showCompletedTasks){
       issuesFiltered = issuesFiltered.filter(issue => !issue.merged);
     }
